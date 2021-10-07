@@ -1,5 +1,8 @@
-import logo from './logo.svg';
+import logo from './2019 Updated Logo-01.png';
+
 import './App.css';
+import Circles from './Components/circles';
+
 
 function App() {
   return (
@@ -7,16 +10,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          D3 Bar Chart
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Circles />
       </header>
     </div>
   );
