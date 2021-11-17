@@ -1,51 +1,83 @@
 
 import '../App.css';
 import * as d3 from 'd3'
-import {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react'
 
-function Circles() {
-  
-  useEffect(() => {
+const url = "https://ergast.com/api/f1/2021/results.json?limit=80";
 
-      // Create a dataset of pets and the amount of people that own them
-      let dataSet = [
-        {subject: "Dogs", count: 150},
-        {subject: "Fish", count: 75},
-        {subject: "Cats", count: 135},
-        {subject: "Bunnies", count: 240},
-      ]
-      // Generate a p tag for each element in the dataSet with the text: Subject: Count 
-      d3.select('#pgraphs').selectAll('p').data(dataSet).enter().append('p').text(dt => dt.subject + ": " + dt.count)
-      
-      // Bar Chart:
-        const getMax = () => { // Calculate the maximum value in the DataSet
-          let max = 0
-          dataSet.forEach((dt) => {
-              if(dt.count > max) {max = dt.count}
-          })
-          return max
-        }
-     
-        
-        // Create each of the bars and then set them all to have the same height(Which is the max value)
-        d3.select('#BarChart').selectAll('div').data(dataSet) 
-        .enter().append('div').classed('bar', true).style('height', `${getMax()}px`)
+
+function Circles({sliderVal}) {
+
     
-        //Transition the bars into having a height based on their corresponding count value
-        d3.select('#BarChart').selectAll('.bar')
-        .transition().duration(1000).style('height', bar => `${bar.count}px`)
-          .style('width', '80px').style('margin-right', '10px').delay(300) // Fix their width and margin
-        
-        
-        
-    }, [])
+    var [races,setRaces]= useState([])
+    var [loading,setLoading]=useState(true)
 
-  return (
-    <div className = "App">
-      <div id="pgraphs"></div> 
-      <div id="BarChart"></div> 
-    </div>
-  );
+    const getData = async () => {
+        const response = await fetch(url);
+        const jsonData = await response.json();
+        
+        setRaces(jsonData.MRData.RaceTable.Races)
+        setLoading(false);
+      };
+
+
+    useEffect(() => {
+
+        getData(url)
+        console.log(sliderVal);
+        
+
+    },[]);
+
+    console.log(loading,'Races:',races);
+
+        
+
+    return (
+
+        <div>
+
+            <h4>Rankings</h4>
+
+            <div><svg viewBox="0 0 100 100">
+                {loading ? loading : races.map((d) =>
+                    d.Results.flatMap((e) =>
+
+                        //filter out anything greater than 5
+                        (e.position > sliderVal) ? [] :
+                            <React.Fragment>
+                                <g>
+                                    <circle
+                                        fill="black"
+                                        stroke="red"
+                                        strokeWidth="1"
+                                        id={d.season + d.raceName + e.Driver.familyName}
+                                        cx={(d.round * 15) + 20}
+                                        cy={e.position * 15}
+                                        r='3' />
+                                    <text x={(d.round * 15) + 20} y={(e.position * 15)}
+                                        textAnchor="middle"
+                                        fontSize="17%"
+                                        fill='white'>
+                                        {e.position}
+                                    </text>
+                                    <text x={(d.round * 15) + 20} y={(e.position * 15) + 5} 
+                                        textAnchor="middle" 
+                                        fontSize="12%">
+                                        {e.Driver.familyName}
+                                    </text>
+                                </g>
+                            </React.Fragment>
+
+                    ))
+
+                };
+            </svg> </div>
+
+
+        </div>
+    );
 }
 
 export default Circles;

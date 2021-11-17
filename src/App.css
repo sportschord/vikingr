@@ -1,23 +1,26 @@
 .App {
   text-align: center;
+  font-family: "Roboto";
 }
 
 .App-logo {
-  height: 15vmin;
+  height: 80px;
   pointer-events: none;
+  justify-content: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+} */
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  height: 12.5vh;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
@@ -43,9 +46,34 @@
   align-items: flex-end; /* Have the bars start at the bottom and go up */
   justify-content: center; /* Center the bars in the middle of the screen */
   margin: 50px;
+  background-color: wheat;
 }
 
 .bar {
   background-color: #3aa70f; /* Have each bar be a nice green */
   width: 10px; /* The animation will start with each bar being 10px wide, and then expand outwards */
+}
+
+.sliders {
+  
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 80%;
+  width: 100%;
+  align-self: center;
+  justify-items: center;
+
+}
+
+.layout {
+  height: 87.5vh;
+  display: grid;
+  grid-template-columns: 60% 40%;
+
+}
+
+.rankings {
+
+  display: grid;
+  grid-template-rows: 30% 70%;
 }
